@@ -7,12 +7,12 @@ class ConfigCacheListener
     /**
      * @const string
      */
-    const CacheKey = 'config.cache';
+    const CACHE_KEY = 'config.cache';
 
     /**
      * @const string
      */
-    const ContainerClass = 'Phalcon\Cache\Frontend\Data';
+    const CONTAINER_CLASS = 'Phalcon\Cache\Frontend\Data';
 
     /**
      * @var string
@@ -52,13 +52,13 @@ class ConfigCacheListener
         $this->readConfig($config);
 
 
-        $containerClass = static::ContainerClass;
+        $containerClass = static::CONTAINER_CLASS;
         $container = new $containerClass($this->lifetime);
 
         $storageClass = $this->storageClass;
         $cache = new $storageClass($container, $this->storageOptions);
 
-        $cachedConfig = $cache->get(static::CacheKey, $this->lifetime);
+        $cachedConfig = $cache->get(static::CACHE_KEY, $this->lifetime);
 
         if (empty($cachedConfig)) {
             $this->enableWritingCache = true;
@@ -78,13 +78,13 @@ class ConfigCacheListener
         $di = $application->getDI();
         $config = $di->get('config');
 
-        $containerClass = static::ContainerClass;
+        $containerClass = static::CONTAINER_CLASS;
         $container = new $containerClass($this->lifetime);
 
         $storageClass = $this->storageClass;
         $cache = new $storageClass($container, $this->storageOptions);
 
-        $cache->save(static::CacheKey, $config, $this->lifetime);
+        $cache->save(static::CACHE_KEY, $config, $this->lifetime);
     }
 
     protected function readConfig($config)

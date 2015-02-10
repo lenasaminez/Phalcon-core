@@ -6,7 +6,6 @@ class RegisterDIListener
 {
     public function afterMergeConfig($event, $application)
     {
-
         $di = $application->getDI();
         $config = $di->get('config');
 

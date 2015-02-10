@@ -7,13 +7,10 @@ use Phalcon\Mvc\Application as MvcApplication,
     Phalcon\Events\Manager as EventsManager,
     Phalcon\Mvc\Dispatcher,
     Phalcon\Mvc\View,
-    //
     Phalcon\DI\FactoryDefault as DiFactory,
     Phalcon\Http\Response,
     Phalcon\Config,
-    //
     Phalcon\Debug,
-    //
     Exception;
 
 class Application extends MvcApplication
@@ -35,7 +32,7 @@ class Application extends MvcApplication
         // bootstrap:beforeMergeConfig
         'Core\Bootstrap\RegisterViewStrategyListener',
 
-        //Database
+        // Database
         'Core\Bootstrap\RegisterDatabaseListener',
 
         // bootstrap:mergeConfig
@@ -102,22 +99,22 @@ class Application extends MvcApplication
 
         $view = new View();
 
-        //verifica se vai utilizar volt
-        if(isset($config['volt']) && $config['volt']){
+        // verifiyng if volt is enabled
+        if (isset($config['volt']) && $config['volt']) {
             $view->registerEngines([
-              ".phtml" => "volt"
+              '.phtml' => 'volt'
             ]);
         }
 
         $di->setShared('view', $view);
-        
+
         $di->set(
             'dispatcher',
-            function() use ($di) {
+            function () use ($di) {
                 $eventsManager = $di->getShared('eventsManager');
                 $eventsManager->attach(
                     'dispatch:beforeException',
-                    function($event, $dispatcher, $exception) {
+                    function ($event, $dispatcher, $exception) {
                         switch ($exception->getCode()) {
                             case Dispatcher::EXCEPTION_HANDLER_NOT_FOUND:
                             case Dispatcher::EXCEPTION_ACTION_NOT_FOUND:
@@ -190,7 +187,6 @@ class Application extends MvcApplication
             if (Application::isDebugMode()) {
                 (new Debug())->onUncaughtException($e);
             }
-
             return new Response();
         }
     }

@@ -7,7 +7,7 @@ class RegisterViewStrategyListener
     /**
      * @const string
      */
-    const DefaultViewStrategyClass = 'Core\Mvc\DefaultViewStrategy';
+    const DEFAULT_VIEW_STRATEGIC_CLASS = 'Core\Mvc\DefaultViewStrategy';
 
     public function beforeMergeConfig($event, $application)
     {
@@ -17,7 +17,7 @@ class RegisterViewStrategyListener
         $config = $di->get('config');
         $view = $di->get('view');
 
-        $class = static::DefaultViewStrategyClass;
+        $class = static::DEFAULT_VIEW_STRATEGIC_CLASS;
         if (isset($config['view_strategy_class'])) {
             $class = $config['view_strategy_class'];
         }

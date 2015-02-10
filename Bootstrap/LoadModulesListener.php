@@ -9,7 +9,6 @@ class LoadModulesListener
 {
     public function init($event, $application)
     {
-
         $modules = $application->getModules();
         $di = $application->getDi();
         $config = $di->get('config');
@@ -22,24 +21,22 @@ class LoadModulesListener
             $module = new $class();
             $moduleOptions['object'] = $module;
 
-            //registra autoloaders
+            //register autoloaders
             if (method_exists($module, 'registerAutoloaders')) {
                 $module->registerAutoloaders();
             }
-            //registra servicos
+            //register services
             if (method_exists($module, 'registerServices')) {
                 $module->registerServices($application->getDi());
             }
 
-            //adiciona configuracoes de view helpers
+            //add view helpers config
             if (method_exists($module, 'registerViewHelpers')) {
                 $item = $module->registerViewHelpers($application->getDi());
-
                 $item = new Config($item);
                 $config->merge($item);
             }
         }
-
         $application->registerModules($modules, true);
     }
 }
